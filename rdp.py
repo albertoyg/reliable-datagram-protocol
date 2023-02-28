@@ -11,20 +11,42 @@ import time
 import re
 import os
 
+# # sender class
+# class rdp_sender:
+#     def __init__(self):
+#         self.state = 'closed'
+
+
+def examineArgs():
+    if (len(sys.argv) != 5):
+        print("error in input")
+    else:
+        return sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4]
+    
+
+def testfile(readfile):
+    return os.path.isfile(readfile)
+
+
+# first check if input is correct
+ipaddress, port, readfile, outputfile = examineArgs()
+
+# check if file exists
+found = testfile(readfile)
+
+if found == False:
+    print("ERROR: file not found")
+
 # Create a TCP/IP socket
 udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-serverPort = int(sys.argv[2])
-ip_addy = sys.argv[1]
 # Bind the socket to the port
-server_address = ('', serverPort)
+server_address = ('', port)
 #print('starting up on {} port {}'.format(*server_address),
 #      file=sys.stderr)
 udp_sock.bind(server_address)
 
 # input & output files
-readfile = sys.argv[3]
-outputfile = sys.argv[4]
 
 # OUTPUT FORMAT: DATE: EVENT; COMMAND; Sequence|ACK: value; Length|Window: Value
 
@@ -40,7 +62,6 @@ message_queues = {}
 
 
 # request message
-request_message = {}
 
 requestLine = []
 
@@ -54,13 +75,21 @@ rcv_buf = []
 # send buffer
 snd_buf = []
 
-synFormat = "SYN\nSequence: 99\nLength: 0\n\n"
+synFormat = "SYN\nSequence: 0\nLength: 0\n\n"
 synResp = "ACK\nWindow: 1024\nAcknowlegment: 100\n\n"
 
 datFormat = "DAT\nSequence: 100\nLength: 100\n\n/.*"
 datResp = "ACK\nWindow: 924\nAcknowlegment: 200\n\n"
 
-while inputs:
+# put syn packet in send buffer
+snd_buf.append(synFormat)
+
+# send encoded packet
+udp_sock.sendto(synFormat.encode(), server_address)
+
+continueLoop = True
+
+while continueLoop:
 
     # Wait for at least one of the sockets to be
     # ready for processing
@@ -73,21 +102,36 @@ while inputs:
     # Handle inputs
 
 
-    for udpSocket in readable:
-
+    if udp_sock in readable:
         # recieve data and append to rcv_buf
-        print(udpSocket)
+        packet = snd_buf.pop(0)
+        rcv_buf.append(packet) 
 
-        # if message cannot be recognized:
+        # if message cannot be recognized:s
             
                 # write rst packet into snd_buf
+
+        # if end of message
+        if (packet[-2:] == "\n\n"):
+            
+            # split the packet
+            RDP = packet.split("\n")
+            
+            # check if its SYN
+            if RDP[0] == 'SYN':
+                print('tru')
+
+        continueLoop = False
+
+
 
 
 
 
     # Handle outputs
     for udpSocket in writable:
-        bytes_sent = udp_sock.send(snd_buf)
+        x = 1
+        # bytes_sent = udp_sock.send(snd_buf)
         # remove the bytes already sent from the snd_buf
 
                     
