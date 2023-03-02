@@ -11,11 +11,44 @@ import time
 import re
 import os
 
-# # sender class
-# class rdp_sender:
-#     def __init__(self):
-#         self.state = 'closed'
+# Define the RDP sender and receiver classes
+class rdp_sender:
+    def __init__(self):
+        self.state = "CLOSED"
+        self.seq_num = 0
+        self.unacked_packets = {}
+        
+    def get_state(self):
+        return self.state
+        
+    def send_data(self, data):
+        # Split the data into RDP packets and add them to the sending buffer
+        pass
+        
+    def rcv_ack(self, ack_num):
+        # Update the list of unacknowledged packets
+        pass
+        
+    def timeout(self):
+        # Resend all unacknowledged packets
+        pass
 
+class rdp_receiver:
+    def __init__(self):
+        self.state = "CLOSED"
+        self.rcv_base = 0
+        self.rcv_buf = {}
+        
+    def get_state(self):
+        return self.state
+        
+    def rcv_data(self, data):
+        # Add the received data to the receiving buffer
+        pass
+        
+    def send_ack(self, seq_num):
+        # Send an ACK packet for the specified sequence number
+        pass
 
 def examineArgs():
     if (len(sys.argv) != 5):
@@ -46,43 +79,23 @@ server_address = ('', port)
 #      file=sys.stderr)
 udp_sock.bind(server_address)
 
-# input & output files
-
-# OUTPUT FORMAT: DATE: EVENT; COMMAND; Sequence|ACK: value; Length|Window: Value
-
-
 # Sockets from which we expect to read
 inputs = [udp_sock]
 
 # Sockets to which we expect to write
 outputs = [udp_sock]
 
-# Outgoing message queues (socket:Queue)
-message_queues = {}
-
-
-# request message
-
-requestLine = []
-
-timeout = 30
-
-lastmessage = 'not empty'
-
 # recieve buffer
-rcv_buf = []
+rcv_buf = queue.Queue()
 
 # send buffer
-snd_buf = []
+snd_buf = queue.Queue()
 
 synFormat = "SYN\nSequence: 0\nLength: 0\n\n"
 synResp = "ACK\nWindow: 1024\nAcknowlegment: 100\n\n"
 
 datFormat = "DAT\nSequence: 100\nLength: 100\n\n/.*"
 datResp = "ACK\nWindow: 924\nAcknowlegment: 200\n\n"
-
-# put syn packet in send buffer
-snd_buf.append(synFormat)
 
 # send encoded packet
 udp_sock.sendto(synFormat.encode(), server_address)
