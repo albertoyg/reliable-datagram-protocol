@@ -99,6 +99,8 @@ snd_buf.put(synFormat)
 # time variable 
 curtime = time.strftime("%a %b %d %H:%M:%S %Z %Y", time.localtime())
 
+
+
 while True:
 
     # Wait for at least one of the sockets to be
@@ -125,12 +127,21 @@ while True:
 
         # check and handle ack
         if command == 'ACK':
-            # log
-            log = "{time}: Receive; {cmd}; {seq}; {len}".format(time = curtime, cmd = command, seq = head[1], len = head[2])
-            print(log)
-            # change state is syn-sent 
-            if state == 'syn-sent':
-                state = 'open'
+                # log
+                log = "{time}: Receive; {cmd}; {seq}; {len}".format(time = curtime, cmd = command, seq = head[1], len = head[2])
+                print(log)
+                # change state is syn-sent 
+                if state == 'syn-sent':
+                    state = 'open'
+                
+        
+        if state == 'send-fin':
+            # find sequence num and inc by 1 
+            number = int(head[2][-1:])
+            fin = "FIN\nSequence: {num}\nLength: 0\n\n".format(num = lastbyte + 1)
+            # send to snd buffer
+            snd_buf.put(fin)
+            state = 'fin-sent'
 
         if command == 'DAT':
             # log
@@ -139,14 +150,25 @@ while True:
             # get len
             len = head[2].split()
             len = int(len[-1])
+            # get seq
+            seq = head[1].split()
+            seq = int(seq[-1])
             # write 
             writeToFile(len)
             file_string = file_string[len:]
             if len < 1024:        
                 # close output file 
                 outputfile.close()
-            if len < 1024:
-                state = 'send-fin'
+            
+    
+            if seq == 4097 or len != 1024 :
+                lastbyte = 1
+                # set ACK message
+                ack = "ACK\nAckkknowlegment: {end}\nWindow: {win}\n\n".format(end =  len + seq, win = maxWindow)
+                # send to snd buffer
+                snd_buf.put(ack)
+                if doneSending == True and state == 'open':
+                    state = 'send-fin'
 
 
         # check if its a SYN packet
@@ -178,33 +200,9 @@ while True:
             # send to snd buffer
             snd_buf.put(ack)
        
-        if state == 'send-fin':
-            # find sequence num and inc by 1 
-            number = int(head[2][-1:])
-            fin = "FIN\nSequence: {num}\nLength: 0\n\n".format(num = lastbyte + 1)
-            # send to snd buffer
-            snd_buf.put(fin)
-            state = 'fin-sent'
+
        
     if udp_sock in writable: # send
-            if state == 'open'and doneSending == False:
-                while(lastbyte < 5121 and doneSending == False):
-            # check payload length
-                    length = checkLen()
-                    if length != 1024:
-                        doneSending = True
-                        
-                    # change length:
-                    file_bytes = file_bytes - 1024
-
-                    # init packet
-                    dat = "DAT\nSequence: {num}\nLength: {len}\n\n".format(num = lastbyte, len = length)
-                     # send to snd buffer
-                    snd_buf.put(dat)
-
-                    lastbyte = lastbyte + length
-                    
-
             while not snd_buf.empty():
                 try:
                     # get message
@@ -219,6 +217,28 @@ while True:
                     udp_sock.sendto(message.encode(), server_address)
                 except snd_buf.empty():
                     continue
+
+            if state == 'open'and doneSending == False:
+                while(lastbyte < 5121 and doneSending == False):
+            # check payload length
+                    length = checkLen()
+                    if length != 1024:
+                        print(length)
+                        doneSending = True
+  
+                        
+                    # change length:
+                    file_bytes = file_bytes - 1024
+
+                    # init packet
+                    dat = "DAT\nSequence: {num}\nLength: {len}\n\n".format(num = lastbyte, len = length)
+                     # send to snd buffer
+                    snd_buf.put(dat)
+
+                    lastbyte = lastbyte + length
+                    
+
+
 
                     
                 
