@@ -33,9 +33,9 @@ def testfile(readfile):
     else:
         return(False)
 
-def writeToFile(len):
-    outputfile.write(file_string[0:len])
-    
+def writeToFile(str):
+    outputfile.write(str)
+
     
 
 # kill program
@@ -161,8 +161,7 @@ while True:
             seq = head[1].split()
             seq = int(seq[-1])
             # write 
-            writeToFile(len)
-            file_string = file_string[len:]
+            writeToFile(tail.decode())
             if len < 1024:        
                 # close output file 
                 outputfile.close()
@@ -240,9 +239,12 @@ while True:
                     # change length:
                     file_bytes = file_bytes - 1024
 
+                    payload = file_string[0:length]
+                    
                     # init packet
-                    dat = "DAT\nSequence: {num}\nLength: {len}\n\n".format(num = byte, len = length)
+                    dat = "DAT\nSequence: {num}\nLength: {len}\n\n{pay}".format(num = byte, len = length, pay = payload)
                     # dat = "DAT\nSequence: {num}\nLength: {len}\n\n".format(num = lastbyte, len = length)
+                    file_string = file_string[length:]
                      # send to snd buffer
                     snd_buf.put(dat)
                     byte = length + byte
