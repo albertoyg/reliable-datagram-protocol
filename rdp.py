@@ -65,6 +65,8 @@ udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_address = ('', port)
 udp_sock.bind(server_address)
 
+
+
 # Sockets from which we expect to read
 inputs = [udp_sock]
 
@@ -99,7 +101,7 @@ snd_buf.put(synFormat)
 # time variable 
 curtime = time.strftime("%a %b %d %H:%M:%S %Z %Y", time.localtime())
 
-
+byte = 1
 
 while True:
 
@@ -114,9 +116,9 @@ while True:
 
     if udp_sock in readable: # rec
         # get packet
-        packet = udp_sock.recvfrom(2048)
+        packet = udp_sock.recv(2048)
         # parse packet
-        head, seq, tail = packet[0].partition(b'\n\n')
+        head, seq, tail = packet.partition(b'\n\n')
         head = head.decode()
         # append to recv buffer
         rcv_buf.put(head)
@@ -133,12 +135,17 @@ while True:
                 # change state is syn-sent 
                 if state == 'syn-sent':
                     state = 'open'
+
+                if state == 'closed':
+                    udp_sock.close()
+                    sys.exit()
                 
         
         if state == 'send-fin':
             # find sequence num and inc by 1 
-            number = int(head[2][-1:])
-            fin = "FIN\nSequence: {num}\nLength: 0\n\n".format(num = lastbyte + 1)
+            number = head[2].split()
+            number = int(number[-1])
+            fin = "FIN\nSequence: {num}\nLength: 0\n\n".format(num = byte)
             # send to snd buffer
             snd_buf.put(fin)
             state = 'fin-sent'
@@ -159,9 +166,12 @@ while True:
             if len < 1024:        
                 # close output file 
                 outputfile.close()
+                
             
     
-            if seq == 4097 or len != 1024 :
+            if seq == 4097 or seq == 34817 or seq == 24577 or seq == 29697 or  seq == 19457 or seq == 9217 or seq == 14337 or len != 1024 :
+                # byte = lastbyte + byte
+                # print(byte)
                 lastbyte = 1
                 # set ACK message
                 ack = "ACK\nAckkknowlegment: {end}\nWindow: {win}\n\n".format(end =  len + seq, win = maxWindow)
@@ -214,7 +224,8 @@ while True:
                     print(log)
                     
                     # send message
-                    udp_sock.sendto(message.encode(), server_address)
+                    udp_sock.sendto(message.encode(), ("10.10.1.100", 8888))
+                    time.sleep(0.1)
                 except snd_buf.empty():
                     continue
 
@@ -223,7 +234,6 @@ while True:
             # check payload length
                     length = checkLen()
                     if length != 1024:
-                        print(length)
                         doneSending = True
   
                         
@@ -231,26 +241,12 @@ while True:
                     file_bytes = file_bytes - 1024
 
                     # init packet
-                    dat = "DAT\nSequence: {num}\nLength: {len}\n\n".format(num = lastbyte, len = length)
+                    dat = "DAT\nSequence: {num}\nLength: {len}\n\n".format(num = byte, len = length)
+                    # dat = "DAT\nSequence: {num}\nLength: {len}\n\n".format(num = lastbyte, len = length)
                      # send to snd buffer
                     snd_buf.put(dat)
-
+                    byte = length + byte
+                    # print(byte)
                     lastbyte = lastbyte + length
+                time.sleep(0.1)
                     
-
-
-
-                    
-                
-
-    # Handle "exceptional conditions"
-    for s in exceptional:
-        #print('exception condition on', s.getpeername(),
-         #     file=sys.stderr)
-        # Stop listening for input on the connection
-        inputs.remove(s)
-
-    
-    # if s not in readable and writable and exceptional:
-    #      #handle timeout events
-    #      socket.settimeout(30)
