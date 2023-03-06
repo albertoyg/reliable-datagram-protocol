@@ -1,0 +1,78 @@
+root@r:/home/jovyan# tcpdump -n -l -r tcp-congestion-before-new.cap
+reading from file tcp-congestion-before-new.cap, link-type EN10MB (Ethernet)
+11:34:21.239978 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [S], seq 2142301567, win 65504, options [mss 736,nop,nop,TS val 4002262002 ecr 0,nop,wscale 7], length 0
+11:34:22.243246 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [S], seq 2142301567, win 65504, options [mss 736,nop,nop,TS val 4002263005 ecr 0,nop,wscale 7], length 0
+11:34:22.443783 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [S.], seq 1524129227, ack 2142301568, win 65160, options [mss 736,nop,nop,TS val 4243848593 ecr 4002262002,nop,wscale 7], length 0
+11:34:22.443828 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], ack 1, win 512, options [nop,nop,TS val 4002263206 ecr 4243848593], length 0
+11:34:22.444238 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [P.], seq 1:725, ack 1, win 512, options [nop,nop,TS val 4002263206 ecr 4243848593], length 724
+11:34:26.275041 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [P.], seq 1:725, ack 1, win 512, options [nop,nop,TS val 4002267037 ecr 4243848593], length 724
+11:34:26.375242 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 725, win 505, options [nop,nop,TS val 4243852524 ecr 4002267037], length 0
+11:34:26.375261 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 725:1449, ack 1, win 512, options [nop,nop,TS val 4002267137 ecr 4243852524], length 724
+11:34:26.375265 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 1449:2173, ack 1, win 512, options [nop,nop,TS val 4002267137 ecr 4243852524], length 724
+11:34:26.475428 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 1449, win 505, options [nop,nop,TS val 4243852624 ecr 4002267137], length 0
+11:34:26.475434 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 2173, win 502, options [nop,nop,TS val 4243852624 ecr 4002267137], length 0
+11:34:26.475448 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 2173:2897, ack 1, win 512, options [nop,nop,TS val 4002267237 ecr 4243852624], length 724
+11:34:26.475454 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 2897:3621, ack 1, win 512, options [nop,nop,TS val 4002267237 ecr 4243852624], length 724
+11:34:26.475478 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 3621:4345, ack 1, win 512, options [nop,nop,TS val 4002267237 ecr 4243852624], length 724
+11:34:26.575553 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 2173, win 505, options [nop,nop,TS val 4243852724 ecr 4002267137], length 0
+11:34:30.115008 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 2173:2897, ack 1, win 512, options [nop,nop,TS val 4002270877 ecr 4243852724], length 724
+11:34:30.215204 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 3621, win 502, options [nop,nop,TS val 4243856364 ecr 4002270877], length 0
+11:34:30.215225 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 4345:5069, ack 1, win 512, options [nop,nop,TS val 4002270977 ecr 4243856364], length 724
+11:34:30.215228 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 5069:5793, ack 1, win 512, options [nop,nop,TS val 4002270977 ecr 4243856364], length 724
+11:34:30.315395 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 3621, win 505, options [nop,nop,TS val 4243856464 ecr 4002270877], length 0
+11:34:30.315401 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 3621, win 505, options [nop,nop,TS val 4243856464 ecr 4002270877], length 0
+11:34:30.315415 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 3621:4345, ack 1, win 512, options [nop,nop,TS val 4002271077 ecr 4243856464], length 724
+11:34:30.415525 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 5793, win 499, options [nop,nop,TS val 4243856564 ecr 4002271077], length 0
+11:34:30.415544 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 5793:6517, ack 1, win 512, options [nop,nop,TS val 4002271177 ecr 4243856564], length 724
+11:34:30.415548 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 6517:7241, ack 1, win 512, options [nop,nop,TS val 4002271177 ecr 4243856564], length 724
+11:34:30.415564 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 7241:7965, ack 1, win 512, options [nop,nop,TS val 4002271177 ecr 4243856564], length 724
+11:34:30.515711 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 6517, win 505, options [nop,nop,TS val 4243856665 ecr 4002271177], length 0
+11:34:30.515716 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 7241, win 502, options [nop,nop,TS val 4243856665 ecr 4002271177], length 0
+11:34:30.515719 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 7965, win 499, options [nop,nop,TS val 4243856665 ecr 4002271177], length 0
+11:34:30.515733 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 7965:8689, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.515745 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 8689:9413, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.515746 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [P.], seq 9413:10137, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.515766 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 10137:10861, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.515768 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [FP.], seq 10861:11585, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.615926 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 7965, win 505, options [nop,nop,TS val 4243856765 ecr 4002271177], length 0
+11:34:30.615932 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 7965, win 505, options [nop,nop,TS val 4243856765 ecr 4002271177], length 0
+
+
+
+reading from file tcp-congestion-before-new.cap, link-type EN10MB (Ethernet)
+11:34:21.239978 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [S], seq 2142301567, win 65504, options [mss 736,nop,nop,TS val 4002262002 ecr 0,nop,wscale 7], length 0
+11:34:22.243246 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [S], seq 2142301567, win 65504, options [mss 736,nop,nop,TS val 4002263005 ecr 0,nop,wscale 7], length 0
+11:34:22.443783 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [S.], seq 1524129227, ack 2142301568, win 65160, options [mss 736,nop,nop,TS val 4243848593 ecr 4002262002,nop,wscale 7], length 0
+11:34:22.443828 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], ack 1, win 512, options [nop,nop,TS val 4002263206 ecr 4243848593], length 0
+11:34:22.444238 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [P.], seq 1:725, ack 1, win 512, options [nop,nop,TS val 4002263206 ecr 4243848593], length 724
+11:34:26.275041 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [P.], seq 1:725, ack 1, win 512, options [nop,nop,TS val 4002267037 ecr 4243848593], length 724
+11:34:26.375242 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 725, win 505, options [nop,nop,TS val 4243852524 ecr 4002267037], length 0
+11:34:26.375261 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 725:1449, ack 1, win 512, options [nop,nop,TS val 4002267137 ecr 4243852524], length 724
+11:34:26.375265 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 1449:2173, ack 1, win 512, options [nop,nop,TS val 4002267137 ecr 4243852524], length 724
+11:34:26.475428 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 1449, win 505, options [nop,nop,TS val 4243852624 ecr 4002267137], length 0
+11:34:26.475434 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 2173, win 502, options [nop,nop,TS val 4243852624 ecr 4002267137], length 0
+11:34:26.475448 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 2173:2897, ack 1, win 512, options [nop,nop,TS val 4002267237 ecr 4243852624], length 724
+11:34:26.475454 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 2897:3621, ack 1, win 512, options [nop,nop,TS val 4002267237 ecr 4243852624], length 724
+11:34:26.475478 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 3621:4345, ack 1, win 512, options [nop,nop,TS val 4002267237 ecr 4243852624], length 724
+11:34:26.575553 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 2173, win 505, options [nop,nop,TS val 4243852724 ecr 4002267137], length 0
+11:34:30.115008 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 2173:2897, ack 1, win 512, options [nop,nop,TS val 4002270877 ecr 4243852724], length 724
+11:34:30.215204 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 3621, win 502, options [nop,nop,TS val 4243856364 ecr 4002270877], length 0
+11:34:30.215225 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 4345:5069, ack 1, win 512, options [nop,nop,TS val 4002270977 ecr 4243856364], length 724
+11:34:30.215228 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 5069:5793, ack 1, win 512, options [nop,nop,TS val 4002270977 ecr 4243856364], length 724
+11:34:30.315395 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 3621, win 505, options [nop,nop,TS val 4243856464 ecr 4002270877], length 0
+11:34:30.315401 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 3621, win 505, options [nop,nop,TS val 4243856464 ecr 4002270877], length 0
+11:34:30.315415 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 3621:4345, ack 1, win 512, options [nop,nop,TS val 4002271077 ecr 4243856464], length 724
+11:34:30.415525 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 5793, win 499, options [nop,nop,TS val 4243856564 ecr 4002271077], length 0
+11:34:30.415544 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 5793:6517, ack 1, win 512, options [nop,nop,TS val 4002271177 ecr 4243856564], length 724
+11:34:30.415548 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 6517:7241, ack 1, win 512, options [nop,nop,TS val 4002271177 ecr 4243856564], length 724
+11:34:30.415564 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 7241:7965, ack 1, win 512, options [nop,nop,TS val 4002271177 ecr 4243856564], length 724
+11:34:30.515711 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 6517, win 505, options [nop,nop,TS val 4243856665 ecr 4002271177], length 0
+11:34:30.515716 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 7241, win 502, options [nop,nop,TS val 4243856665 ecr 4002271177], length 0
+11:34:30.515719 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 7965, win 499, options [nop,nop,TS val 4243856665 ecr 4002271177], length 0
+11:34:30.515733 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 7965:8689, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.515745 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 8689:9413, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.515746 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [P.], seq 9413:10137, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.515766 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [.], seq 10137:10861, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.515768 IP 192.168.1.100.46504 > 10.10.1.100.5001: Flags [FP.], seq 10861:11585, ack 1, win 512, options [nop,nop,TS val 4002271278 ecr 4243856665], length 724
+11:34:30.615926 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 7965, win 505, options [nop,nop,TS val 4243856765 ecr 4002271177], length 0
+11:34:30.615932 IP 10.10.1.100.5001 > 192.168.1.100.46504: Flags [.], ack 7965, win 505, options [nop,nop,TS val 4243856765 ecr 4002271177], length 0
