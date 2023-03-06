@@ -103,6 +103,13 @@ curtime = time.strftime("%a %b %d %H:%M:%S %Z %Y", time.localtime())
 
 byte = 1
 
+maxbytes = []
+x = 4
+while x < 10000:
+    value = 1024*x + 1
+    maxbytes.append(value)
+    x += 5
+
 while True:
 
     # Wait for at least one of the sockets to be
@@ -168,12 +175,12 @@ while True:
                 
             
     
-            if seq == 4097 or seq == 34817 or seq == 24577 or seq == 29697 or  seq == 19457 or seq == 9217 or seq == 14337 or len != 1024 :
+            if seq in maxbytes or len != 1024 :
                 # byte = lastbyte + byte
                 # print(byte)
                 lastbyte = 1
                 # set ACK message
-                ack = "ACK\nAckkknowlegment: {end}\nWindow: {win}\n\n".format(end =  len + seq, win = maxWindow)
+                ack = "ACK\nAcknowlegment: {end}\nWindow: {win}\n\n".format(end =  len + seq, win = maxWindow)
                 # send to snd buffer
                 snd_buf.put(ack)
                 if doneSending == True and state == 'open':
